@@ -6,6 +6,7 @@
 :root[data-theme="dark"]{color-scheme:dark;--bg:#05080f;--card:#0b1322;--line:#30445f;--t1:#e7f1ff;--t2:#b5c6dc;--t3:#99abc3;--acc:#78dce8;--ok:#85ecba;--warn:#ffc078;--bad:#ff8c9b;--track:#18263c;--notice:#382719}
 *{box-sizing:border-box}html{min-width:0;background:var(--bg)}body{margin:0 auto;padding:22px 16px 32px;max-width:1120px;min-width:0;background-color:var(--bg);color:var(--t1);font:14px/1.6 -apple-system,"Apple SD Gothic Neo",sans-serif;overflow-wrap:anywhere}main,section,article,details{min-width:0}h1,h2,h3,p{margin:0}h1{font-size:20px}h2{font-size:16px;margin:20px 0 9px}h3{font-size:16px}header{border-bottom:1px solid var(--line);padding-bottom:15px}.brand{font:600 12px var(--mono);letter-spacing:.12em;color:var(--acc);margin-bottom:4px}.stamp,.muted,.small{color:var(--t2);font-size:12px}.stamp{margin-top:9px}#phone-status{padding:16px 0;color:var(--t2)}[hidden]{display:none!important}.card{border:1px solid var(--line);border-radius:11px;background:var(--card);padding:14px;min-width:0}.usage-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.account{font-weight:600;font-size:13px;margin-bottom:7px}.usage-total{display:flex;align-items:baseline;flex-wrap:wrap;gap:0 6px;margin:4px 0 7px;font-size:12px}.usage-number{font:600 36px/1.15 var(--mono);letter-spacing:-.04em;font-variant-numeric:tabular-nums}.usage-track{height:7px;border-radius:3px;background:var(--track);overflow:hidden}.usage-fill{height:100%;background:var(--acc);border-radius:3px}.usage-warn .usage-total{color:var(--warn)}.usage-critical .usage-total{color:var(--bad)}.usage-warn .usage-fill{background:var(--warn)}.usage-critical .usage-fill{background:var(--bad)}.usage-reset{margin-top:5px}.five-usage{margin-top:12px}.five-usage .usage-number{font-size:14px}.five-usage .usage-track{height:3px}.usage-stale{margin-top:10px;color:var(--warn)}.warning{color:var(--warn)}.project{margin-top:14px;border-top:3px solid var(--project-color,var(--acc))}.project-heading{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}.goal{margin-top:7px}.project-meta{margin-top:7px;color:var(--t2);font-size:12px}.tokens{font:12px/1.7 var(--mono);color:var(--t2);margin-top:8px}.token-note{font-size:12px;color:var(--t2);margin-top:4px}.suggestion{padding:9px 11px;background:var(--notice);border-radius:6px;margin-bottom:11px;color:var(--warn);font-size:12px}.stages{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.stage{border:1px solid var(--line);border-radius:6px;padding:5px 9px;color:var(--t2);font-size:12px;min-width:0}.stage-current{border-color:var(--acc);color:var(--t1);font-weight:600}.stage-done{color:var(--ok)}.members{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}.member{border:1px solid var(--line);border-radius:7px;padding:10px;min-width:0}.member-title{font-size:13px;font-weight:600}.member-state{font-size:12px;margin-top:4px;color:var(--t2)}.flower{display:inline-block;margin-right:5px;line-height:1.1;font-size:18px;color:var(--t3);vertical-align:-1px}.working .flower{color:var(--acc);animation:phone-flower-spin 6s linear infinite}.permission .flower,.permission .member-state{color:var(--warn)}.off .flower{color:var(--t3)}.events{padding:0;list-style:none;margin:8px 0 0;color:var(--t2);font-size:12px}.events li{margin:5px 0}.events time{font-family:var(--mono);margin-right:8px}.section-label{margin-top:12px;font-size:12px;color:var(--t2)}.actions-list{padding-left:20px;margin:0}.actions-list li{margin:5px 0}.finished{margin-top:18px}.finished>summary{font-weight:600;cursor:pointer;padding:8px 0}.folded{margin-top:10px;color:var(--t2);font-size:12px}.empty{color:var(--t3);font-size:12px}.foot{margin-top:24px;border-top:1px solid var(--line);padding-top:12px;color:var(--t3);font-size:11px}
 .refresh-button{margin-top:12px;padding:7px 13px;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--t1);font:inherit;cursor:pointer}.refresh-button:hover{border-color:var(--acc)}.refresh-button:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.task-row{margin-top:12px;padding:12px 0;border-top:1px solid var(--line);min-width:0;overflow-wrap:anywhere}.task-row h3{font-size:14px}.task-finished>summary{cursor:pointer;padding:10px 0;color:var(--t2)}
 @keyframes phone-flower-spin{to{transform:rotate(360deg)}}
 @media(max-width:800px){.usage-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.members{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){body{padding-left:16px;padding-right:16px}.usage-grid,.members{grid-template-columns:1fr}.card{padding:13px}}
@@ -85,25 +86,26 @@
     add(parent, 'p', 'section-label', '오늘 주고받은 일'); const list = add(parent, 'ul', 'events');
     items.forEach(item => { const row = add(list, 'li'); add(row, 'time', '', item.time); add(row, 'span', '', clean(projectTitle, 120)); });
   }
-  function projectSection(parent, item, archived) {
-    const card = add(parent, 'article', 'card project');
+  function projectSection(parent, item, archived, task = false) {
+    const card = add(parent, 'article', task ? 'task-row' : 'card project');
     if (typeof item.color === 'string' && /^#[0-9a-fA-F]{6}$/.test(item.color)) card.style.setProperty('--project-color', item.color);
     const projectTitle = clean(item.name, 120) || '이름 없는 일';
     const head = add(card, 'div', 'project-heading'); add(head, 'h3', '', projectTitle);
     if (archived) add(head, 'span', 'small', '끝난 일');
-    if (clean(item.goal)) add(card, 'p', 'goal', item.goal);
-    if (object(item.tokens)) {
-      const claude = tokenCount(item.tokens.claude), codex = tokenCount(item.tokens.codex);
-      if (claude !== null && codex !== null) {
-        const tail = item.tokens.pending === true || count(item.tokens.pending) > 0 ? ' · 집계 중입니다' : item.tokens.stale === true ? ' · 새 집계를 기다립니다' : '';
-        add(card, 'p', 'tokens', '대략 사용 토큰 · Claude ' + formatNumber(claude) + ' · Codex ' + formatNumber(codex) + tail);
-      }
+    if (!task && Array.isArray(item.tasks)) {
+      const tasks = rows(item.tasks, 50).filter(object), counts = object(item.task_counts) ? item.task_counts : {};
+      add(head, 'span', 'small', '작업 ' + tasks.length + ' · 일하는 중 ' + (count(counts.working) || 0) + ' · 허락 대기 ' + (count(counts.permission) || 0));
+      if (object(item.common)) projectSection(card, item.common, false, true);
+      tasks.filter(row => row.folded !== true).forEach(row => projectSection(card, row, false, true));
+      const finished = tasks.filter(row => row.folded === true);
+      const details = add(card, 'details', 'task-finished'); add(details, 'summary', '', '끝난 작업 (' + finished.length + ')');
+      finished.forEach(row => projectSection(details, row, true, true));
+      eventsSection(card, item.events, projectTitle); return;
     }
     if (object(item.progress)) {
       const stages = rows(item.progress.stages, 30).filter(value => typeof value === 'string');
       const current = count(item.progress.current);
       if (stages.length) { const stageWrap = add(card, 'div', 'stages'); stages.forEach((stage, index) => add(stageWrap, 'span', 'stage' + (index === current ? ' stage-current' : current !== null && index < current ? ' stage-done' : ''), stage)); }
-      if (clean(item.progress.note)) add(card, 'p', 'project-meta', item.progress.note);
     }
     membersSection(card, item.members, projectTitle); eventsSection(card, item.events, projectTitle);
   }
