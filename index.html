@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
-<title>AI 팀 상황판</title><style>
+<title>Vela Bridge</title><style>
 :root{color-scheme:light;--bg:#f4f7fc;--card:#fff;--line:#c5d2e2;--t1:#172b45;--t2:#3f5570;--t3:#52657e;--acc:#006f7c;--ok:#11663b;--warn:#945000;--bad:#b51f3c;--track:#dde6f2;--notice:#fff3df;--mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#05080f;--card:#0b1322;--line:#30445f;--t1:#e7f1ff;--t2:#b5c6dc;--t3:#99abc3;--acc:#78dce8;--ok:#85ecba;--warn:#ffc078;--bad:#ff8c9b;--track:#18263c;--notice:#382719}}
 :root[data-theme="dark"]{color-scheme:dark;--bg:#05080f;--card:#0b1322;--line:#30445f;--t1:#e7f1ff;--t2:#b5c6dc;--t3:#99abc3;--acc:#78dce8;--ok:#85ecba;--warn:#ffc078;--bad:#ff8c9b;--track:#18263c;--notice:#382719}
@@ -11,7 +11,7 @@
 @media(max-width:800px){.usage-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.members{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){body{padding-left:16px;padding-right:16px}.usage-grid,.members{grid-template-columns:1fr}.card{padding:13px}}
 @media (prefers-reduced-motion: reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
-</style></head><body><header><p class="brand">AI TEAM</p><h1>AI 팀 상황판</h1><p id="public-updated" class="stamp">마지막 갱신 확인 중 — 맥이 꺼져 있으면 이 시각에서 멈춥니다</p><button id="public-refresh" class="refresh-button" type="button">새로 고침</button></header>
+</style></head><body><header><p class="brand">VELA BRIDGE</p><h1>Vela Bridge</h1><p class="small subtitle">AI 팀 지휘판</p><p id="public-updated" class="stamp">마지막 갱신 확인 중 — 맥이 꺼져 있으면 이 시각에서 멈춥니다</p><button id="public-refresh" class="refresh-button" type="button">새로 고침</button></header>
 <p id="public-status" role="status" aria-live="polite">자료를 읽는 중입니다</p><main id="public-content" hidden></main>
 <footer class="foot">자료는 맥에서 갱신합니다. 새로 고침을 누르면 현재 자료를 다시 확인합니다.</footer>
 <script id="public-data-script">(() => {
@@ -69,7 +69,7 @@
   function membersSection(parent, values, projectTitle) {
     const items = rows(values, 80).filter(object); if (!items.length) return;
     const grid = add(parent, 'div', 'members');
-    const labels = {working:'일하는 중',idle:'쉬는 중',permission:'허락 기다림',off:'꺼짐',renamed:'꺼짐 또는 새 창',missing:'자료 없음'};
+    const labels = {working:'일하는 중',idle:'쉬는 중',permission:'허락 기다림',off:'꺼짐',renamed:'꺼짐',choose:'창 고르기 필요',missing:'자료 없음'};
     items.forEach(item => {
       const state = Object.prototype.hasOwnProperty.call(labels, item.status) ? item.status : 'missing';
       const card = add(grid, 'article', 'member ' + state);
