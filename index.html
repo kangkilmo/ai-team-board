@@ -69,7 +69,7 @@
   function membersSection(parent, values, projectTitle) {
     const items = rows(values, 80).filter(object); if (!items.length) return;
     const grid = add(parent, 'div', 'members');
-    const labels = {working:'일하는 중',idle:'쉬는 중',permission:'허락 기다림',off:'꺼짐',renamed:'꺼짐',choose:'창 고르기 필요',missing:'자료 없음'};
+    const labels = {working:'일하는 중',idle:'쉬는 중',permission:'허락 기다림',stalled:'진전 없음',off:'꺼짐',renamed:'꺼짐',choose:'창 고르기 필요',missing:'자료 없음'};
     items.forEach(item => {
       const state = Object.prototype.hasOwnProperty.call(labels, item.status) ? item.status : 'missing';
       const card = add(grid, 'article', 'member ' + state);
